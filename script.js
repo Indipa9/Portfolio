@@ -285,10 +285,10 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Add floating particles effect
+    // Add floating space particles effect (Stars)
     function createParticles() {
         const particles = document.createElement('div');
-        particles.className = 'particles';
+        particles.className = 'stars';
         particles.style.cssText = `
             position: fixed;
             top: 0;
@@ -297,29 +297,51 @@ document.addEventListener('DOMContentLoaded', function() {
             height: 100%;
             pointer-events: none;
             z-index: -1;
+            background: transparent;
         `;
         
-        for (let i = 0; i < 50; i++) {
+        for (let i = 0; i < 200; i++) {
             const particle = document.createElement('div');
+            const size = Math.random() * 2.5 + 0.5;
+            
+            // Randomly assign pure white or slightly colored stars for realism
+            const isColored = Math.random() > 0.8;
+            const stellarColors = ['#ffffff', '#e0f2fe', '#f3e8ff', '#00f6ff'];
+            const color = isColored ? stellarColors[Math.floor(Math.random() * stellarColors.length)] : '#ffffff';
+            
             particle.style.cssText = `
                 position: absolute;
-                width: 2px;
-                height: 2px;
-                background: rgba(212, 175, 55, 0.3);
+                width: ${size}px;
+                height: ${size}px;
+                background: ${color};
                 border-radius: 50%;
-                animation: float ${Math.random() * 10 + 10}s linear infinite;
+                opacity: ${Math.random() * 0.8 + 0.2};
+                box-shadow: 0 0 ${size * 2}px ${color};
+                animation: twinkle ${Math.random() * 4 + 2}s infinite alternate, floatStars ${Math.random() * 150 + 50}s linear infinite;
                 left: ${Math.random() * 100}%;
                 top: ${Math.random() * 100}%;
-                animation-delay: ${Math.random() * 10}s;
             `;
             particles.appendChild(particle);
         }
         
+        // Add star animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes twinkle {
+                0% { opacity: 0.1; transform: scale(0.8); }
+                100% { opacity: 1; transform: scale(1.2); }
+            }
+            @keyframes floatStars {
+                from { transform: translateY(0) translateX(0); }
+                to { transform: translateY(-100vh) translateX(10vw); }
+            }
+        `;
+        document.head.appendChild(style);
         document.body.appendChild(particles);
     }
 
     // Initialize particles
     createParticles();
 
-    console.log('🐉 Portfolio initialized successfully! Winter is coming... but your code is ready! 🐉');
+    console.log('🚀 Space Portfolio initialized successfully! To infinity and beyond! 🌌');
 });
