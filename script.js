@@ -192,14 +192,27 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 1500);
     }
 
-    // Parallax effect for hero section
+    // Advanced Parallax effect for hero section elements
     window.addEventListener('scroll', () => {
         const scrolled = window.pageYOffset;
-        const parallax = document.querySelector('.hero');
-        const speed = scrolled * 0.5;
         
-        if (parallax) {
-            parallax.style.transform = `translateY(${speed}px)`;
+        // Move background shapes at different speeds
+        document.querySelectorAll('.parallax-shape').forEach(shape => {
+            const speed = shape.getAttribute('data-speed');
+            shape.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.05}deg)`;
+        });
+
+        // Subtle parallax on hero content
+        const heroContent = document.querySelector('.hero-text');
+        const heroImage = document.querySelector('.hero-image');
+        
+        if (heroContent && scrolled < window.innerHeight) {
+            heroContent.style.transform = `translateY(${scrolled * 0.3}px)`;
+            heroContent.style.opacity = 1 - (scrolled / 700);
+        }
+        
+        if (heroImage && scrolled < window.innerHeight) {
+            heroImage.style.transform = `translateY(${scrolled * 0.15}px)`;
         }
     });
 
